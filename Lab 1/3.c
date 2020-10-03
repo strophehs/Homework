@@ -16,20 +16,21 @@ OList *CreateOrderedList(int n)
 	}
 	return L;
 }
-void Sort(OList *L)
+void Delete(OList *L, int n)
 {
-	int l = 0, r = L->size - 1;
-	while (l < r && l < L->size && r > -1)
+	for (int i = n; i < L->size; i++)
+		L->data[i] = L->data[i + 1];
+	L->size--;
+}
+void Unique(OList *L)
+{
+	int pos = 1;
+	while (pos < L->size)
 	{
-		while (L->data[l] % 2 == 1)
-			l++;
-		while (L->data[r] % 2 == 0)
-			r--;
-		if (l >= r)
-			break;
-		int t = L->data[l];
-		L->data[l] = L->data[r];
-		L->data[r] = t;
+		if (L->data[pos] == L->data[pos - 1])
+			Delete(L, pos);
+		else
+			pos++;
 	}
 }
 void PrintList(OList *L)
@@ -41,10 +42,11 @@ void PrintList(OList *L)
 }
 int main()
 {
+	freopen("0.txt", "r", stdin);
 	OList *OrderedList;
 	int n;
 	scanf("%d", &n);
 	OrderedList = CreateOrderedList(n);
-	Sort(OrderedList);
+	Unique(OrderedList);
 	PrintList(OrderedList);
 }
